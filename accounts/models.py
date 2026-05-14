@@ -1,3 +1,30 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('customer', 'Customer'),
+        ('worker', 'Worker'),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+    profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    is_female = models.BooleanField(default=False)
+    nid = models.CharField(max_length=20, blank=True)
+    nid_image = models.ImageField(upload_to='nid/', blank=True, null=True)
+
+    def _str_(self):
+        return self.user.username
+
+class WorkerProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    experience = models.IntegerField(default=0)
+    pricing = models.DecimalField(max_digits=8, decimal_places=2)
+    is_available = models.BooleanField(default=True)
+    completed_jobs = models.IntegerField(default=0)
+    rating = models.FloatField(default=0.0)
+
+    def _str_(self):
+        return self.user.username
