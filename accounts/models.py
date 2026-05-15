@@ -12,9 +12,9 @@ class UserProfile(models.Model):
     address = models.TextField()
     profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
     is_female = models.BooleanField(default=False)
-    nid = models.CharField(max_length=20, blank=True)
-    nid_image = models.ImageField(upload_to='nid/', blank=True, null=True)
-
+    nid = models.CharField(max_length=20, blank=True)  # hidden, admin only
+    nid_image = models.ImageField(upload_to='nid/', blank=True, null=True)  # hidden, admin only
+    is_verified = models.BooleanField(default=False)  # this is what users SEE
     def _str_(self):
         return self.user.username
 
