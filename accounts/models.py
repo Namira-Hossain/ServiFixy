@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     nid = models.CharField(max_length=20, blank=True)  # hidden, admin only
     nid_image = models.ImageField(upload_to='nid/', blank=True, null=True)  # hidden, admin only
     is_verified = models.BooleanField(default=False)  # this is what users SEE
-    def _str_(self):
+    def __str__(self):
         return self.user.username
 
 class WorkerProfile(models.Model):
@@ -26,5 +26,5 @@ class WorkerProfile(models.Model):
     completed_jobs = models.IntegerField(default=0)
     rating = models.FloatField(default=0.0)
 
-    def _str_(self):
+    def __str__(self):
         return self.user.username

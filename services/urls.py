@@ -16,16 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('services/', include('services.urls')),
-    path('bookings/', include('bookings.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+    path('', views.service_list, name='service_list'),
+    path('<int:pk>/', views.service_detail, name='service_detail'),
+    path('search/', views.search_view, name='search'),
+    path('create/', views.create_service, name='create_service'),
+    path('<int:pk>/edit/', views.edit_service, name='edit_service'),
+    path('<int:pk>/delete/', views.delete_service, name='delete_service'),
+]
