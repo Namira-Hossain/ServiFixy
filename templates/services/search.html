@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>search</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<h2 style="margin-bottom:15px;">Search Services</h2>
+
+<form method="GET" class="search-form">
+    <div class="form-group">
+        <label>Search</label>
+        <input type="text" name="q"
+            placeholder="Search services..."
+            value="{{ query }}">
+    </div>
+    <div class="form-group">
+        <label>Category</label>
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Sort By</label>
+        <select name="sort">
+            <option value="">Default</option>
+            <option value="price_low">Price: Low to High</option>
+            <option value="price_high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="female_only" value="1">
+            Female Workers Only
+        </label>
+    </div>
+    <div>
+        <button type="submit" class="btn">Search</button>
+    </div>
+</form>
+
+<div class="services-grid">
+    {% for service in services %}
+        <div class="service-card">
+            {% if service.service_image %}
+                <img src="{{ service.service_image.url }}"
+                    alt="{{ service.title }}">
+            {% endif %}
+            <div class="service-card-body">
+                <span class="category-tag">{{ service.category.name }}</span>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description|truncatewords:10 }}</p>
+                <p class="price">৳{{ service.price }}/hr</p>
+                <p>⭐ {{ service.worker.rating }}/5</p>
+                {% if service.worker.user.userprofile.is_female %}
+                    <span class="badge badge-female">👩 Female</span>
+                {% endif %}
+                {% if service.worker.user.userprofile.is_verified %}
+                    <span class="badge badge-verified">✅ Verified</span>
+                {% endif %}
+                <a href="{% url 'service_detail' service.pk %}" class="btn">
+                    View
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No services found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
