@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<section class="hero">
+    <h1>Welcome to ServiFixy</h1>
+    <p>Find trusted home service providers near you</p>
+    <a href="{% url 'service_list' %}" class="btn">Browse Services</a>
+    <a href="{% url 'search' %}" class="btn">Search Providers</a>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <h3>✅ Verified Providers</h3>
+        <p>All workers are NID verified for your safety</p>
+    </div>
+    <div class="feature-card">
+        <h3>👩 Female Worker Option</h3>
+        <p>Choose female workers for added comfort</p>
+    </div>
+    <div class="feature-card">
+        <h3>⭐ Two-Way Ratings</h3>
+        <p>Both customers and workers rate each other</p>
+    </div>
+</section>
+
+{% endblock %}
