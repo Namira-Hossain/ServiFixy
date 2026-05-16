@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>book_service</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="form-container">
+    <h2>Book Service</h2>
+
+    <div class="booking-summary">
+        <p><strong>Service:</strong> {{ service.title }}</p>
+        <p><strong>Worker:</strong> {{ service.worker.user.username }}</p>
+        <p><strong>Original Price:</strong> ৳{{ total_price }}</p>
+        {% if is_first %}
+            <div class="discount-banner">
+                🎉 First Booking! You get 10% OFF
+            </div>
+            <p><strong>Final Price:</strong> ৳{{ final_price }}</p>
+        {% else %}
+            <p><strong>Final Price:</strong> ৳{{ total_price }}</p>
+        {% endif %}
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span class="error">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Confirm Booking</button>
+        <a href="{% url 'service_list' %}" class="btn btn-outline">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}
