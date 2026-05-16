@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>service_list</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="page-header">
+    <h2>All Services</h2>
+    <a href="{% url 'search' %}" class="btn">Search & Filter</a>
+</div>
+
+<!-- Recommended Providers -->
+<div class="recommended">
+    <h2>⭐ Recommended Providers</h2>
+    <div class="services-grid">
+        {% for worker in recommended %}
+            <div class="service-card">
+                <div class="service-card-body">
+                    <h3>{{ worker.user.username }}</h3>
+                    <p>⭐ Rating: {{ worker.rating }}/5</p>
+                    <p>✅ Jobs Done: {{ worker.completed_jobs }}</p>
+                    <p>💰 From ৳{{ worker.pricing }}/hr</p>
+                    {% if worker.user.userprofile.is_verified %}
+                        <span class="badge badge-verified">✅ Verified</span>
+                    {% endif %}
+                    {% if worker.user.userprofile.is_female %}
+                        <span class="badge badge-female">👩 Female</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p>No providers yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="category-bar">
+    {% for category in categories %}
+        <span class="category-tag">{{ category.name }}</span>
+    {% endfor %}
+</div>
+
+<!-- All Services -->
+<div class="services-grid">
+    {% for service in services %}
+        <div class="service-card">
+            {% if service.service_image %}
+                <img src="{{ service.service_image.url }}"
+                    alt="{{ service.title }}">
+            {% endif %}
+            <div class="service-card-body">
+                <span class="category-tag">{{ service.category.name }}</span>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description|truncatewords:12 }}</p>
+                <p class="price">৳{{ service.price }}/hr</p>
+                <div class="worker-info">
+                    <span>👤 {{ service.worker.user.username }}</span>
+                    {% if service.worker.user.userprofile.is_female %}
+                        <span class="badge badge-female">👩 Female</span>
+                    {% endif %}
+                    {% if service.worker.user.userprofile.is_verified %}
+                        <span class="badge badge-verified">✅ Verified</span>
+                    {% endif %}
+                </div>
+                <a href="{% url 'service_detail' service.pk %}" class="btn">
+                    View Details
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No services available yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
