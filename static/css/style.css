@@ -301,3 +301,29 @@ body {
     display: flex;
     gap: 10px;
 }
+/* STATUS - booking_history.html and booking_requests.html */
+.status {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.status-pending {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.status-confirmed {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+}
+
+.status-completed {
+    background-color: #e6f4ea;
+    color: #2e7d32;
+}
+
+.status-cancelled {
+    background-color: #fce4ec;
+    color: #c2185b;
+}
