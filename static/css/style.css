@@ -425,3 +425,65 @@ body {
 .recommended h2 {
     margin-bottom: 15px;
 }
+/* SERVICE DETAIL - service_detail.html */
+.detail-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.detail-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.detail-body {
+    padding: 25px;
+}
+
+.detail-body h2 {
+    margin-bottom: 10px;
+}
+
+.detail-meta {
+    margin: 15px 0;
+    line-height: 2;
+    font-size: 14px;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.portfolio-grid img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* SEARCH - search.html */
+.search-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.search-form .form-group {
+    flex: 1;
+    min-width: 150px;
+    margin-bottom: 0;
+}
