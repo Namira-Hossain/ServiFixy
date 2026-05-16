@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('customer', 'Customer'),
@@ -24,7 +24,13 @@ class WorkerProfile(models.Model):
     pricing = models.DecimalField(max_digits=8, decimal_places=2)
     is_available = models.BooleanField(default=True)
     completed_jobs = models.IntegerField(default=0)
-    rating = models.FloatField(default=0.0)
+    rating = models.FloatField(
+        default=0.0,
+        validators=[
+            MinValueValidator(0.0),
+            MaxValueValidator(5.0)
+        ]
+    )
 
     def __str__(self):
         return self.user.username

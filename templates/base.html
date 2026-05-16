@@ -5,6 +5,16 @@
     <title>Base</title>
 </head>
 <body>
-
+    {% include 'navbar.html' %}
+    <main class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+    {% include 'footer.html' %}
 </body>
 </html>
