@@ -72,7 +72,10 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    profile = UserProfile.objects.get(user=request.user)
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        return redirect('register')
     return render(request, 'accounts/profile.html', {'profile': profile})
 
 @login_required
