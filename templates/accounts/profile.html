@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="profile-container">
+    <div class="profile-header">
+        {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}"
+                alt="Profile" class="profile-img">
+        {% else %}
+            <div class="profile-img-placeholder">👤</div>
+        {% endif %}
+        <div class="profile-info">
+            <h2>{{ profile.user.username }}</h2>
+            <p>{{ profile.role|capfirst }}</p>
+            {% if profile.is_verified %}
+                <span class="badge badge-verified">✅ Identity Verified</span>
+            {% else %}
+                <span class="badge badge-pending">⏳ Verification Pending</span>
+            {% endif %}
+            {% if profile.is_female %}
+                <span class="badge badge-female">👩 Female</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="profile-details">
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Phone:</strong> {{ profile.phone }}</p>
+        <p><strong>Address:</strong> {{ profile.address }}</p>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
+        {% if profile.role == 'customer' %}
+            <a href="{% url 'booking_history' %}" class="btn">My Bookings</a>
+        {% else %}
+            <a href="{% url 'booking_requests' %}" class="btn">Booking Requests</a>
+            <a href="{% url 'create_service' %}" class="btn">Add Service</a>
+        {% endif %}
+        <a href="{% url 'delete_account' %}" class="btn btn-outline">
+            Delete Account
+        </a>
+    </div>
+</div>
+
+{% endblock %}
