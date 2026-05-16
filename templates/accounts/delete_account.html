@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>delete_account</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="form-container">
+    <h2>Delete Account</h2>
+    <p style="margin-bottom:15px;">
+        Are you sure? This cannot be undone.
+    </p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn">Yes Delete</button>
+        <a href="{% url 'profile' %}" class="btn btn-outline">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}
