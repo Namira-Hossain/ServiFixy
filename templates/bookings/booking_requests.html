@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>booking_requests</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="page-header">
+    <h2>Booking Requests</h2>
+</div>
+
+<div class="bookings-list">
+    {% for booking in bookings %}
+        <div class="booking-card">
+            <div class="booking-info">
+                <h3>{{ booking.service.title }}</h3>
+                <p><strong>Customer:</strong> {{ booking.customer.user.username }}</p>
+                <p><strong>Date:</strong> {{ booking.date }}</p>
+                <p><strong>Time:</strong> {{ booking.time }}</p>
+                <p><strong>Status:</strong>
+                    <span class="status status-{{ booking.status }}">
+                        {{ booking.status|capfirst }}
+                    </span>
+                </p>
+                <p><strong>Final Price:</strong> ৳{{ booking.final_price }}</p>
+            </div>
+            <div class="booking-actions">
+                {% if booking.status == 'completed' %}
+                    <a href="{% url 'leave_rating' booking.pk %}"
+                        class="btn">Leave Rating</a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>No booking requests yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
