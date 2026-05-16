@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>edit_profile</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="form-container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="text" name="phone" value="{{ profile.phone }}">
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <textarea name="address">{{ profile.address }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Profile Image</label>
+            <input type="file" name="profile_image" accept="image/*">
+        </div>
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="{% url 'profile' %}" class="btn btn-outline">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}
