@@ -24,10 +24,25 @@
     </div>
 
     <div class="profile-details">
-        <p><strong>Email:</strong> {{ profile.user.email }}</p>
-        <p><strong>Phone:</strong> {{ profile.phone }}</p>
-        <p><strong>Address:</strong> {{ profile.address }}</p>
-    </div>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Phone:</strong> {{ profile.phone }}</p>
+    <p><strong>Address:</strong> {{ profile.address }}</p>
+
+    {% if worker_profile %}
+    <hr style="margin:10px 0;border:none;border-top:1px solid #eee;">
+    <p><strong>Experience:</strong> {{ worker_profile.experience }} years</p>
+    <p><strong>Pricing:</strong> ৳{{ worker_profile.pricing }}/hr</p>
+    <p><strong>Rating:</strong> ⭐ {{ worker_profile.rating }}/5</p>
+    <p><strong>Completed Jobs:</strong> {{ worker_profile.completed_jobs }}</p>
+    <p><strong>Availability:</strong>
+        {% if worker_profile.is_available %}
+            <span class="badge badge-verified">Available</span>
+        {% else %}
+            <span class="badge badge-pending">Unavailable</span>
+        {% endif %}
+    </p>
+    {% endif %}
+</div>
 
     <div class="profile-actions">
         <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
@@ -42,5 +57,26 @@
         </a>
     </div>
 </div>
-
+{% if received_ratings %}
+<div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;color:#003459;">Reviews Received</h3>
+    {% for rating in received_ratings %}
+    <div style="background:#f9f9f9;padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid #eee;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <strong>{{ rating.reviewer.user.username }}</strong>
+            <span style="color:#f59e0b;font-size:16px;">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= rating.score %}⭐{% endif %}
+                {% endfor %}
+                <span style="font-size:13px;color:#555;">{{ rating.score }}/5</span>
+            </span>
+        </div>
+        <p style="font-size:13px;color:#555;">{{ rating.booking.service.title }}</p>
+        {% if rating.comment %}
+            <p style="font-size:13px;margin-top:4px;">{{ rating.comment }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}
