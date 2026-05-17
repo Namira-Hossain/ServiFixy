@@ -40,11 +40,6 @@
                 <p class="price">
                     ৳{{ service.price }}/hr
                 </p>
-               {% if service.is_available %}
-                      <span class="text-success">Available</span>
-               {% else %}
-                     <span class="text-danger">Not Available</span>
-               {% endif %}
                 <div class="worker-info">
 
                     <span>
@@ -90,11 +85,6 @@
                 <h3>{{ service.title }}</h3>
                 <p>{{ service.description|truncatewords:12 }}</p>
                 <p class="price">৳{{ service.price }}/hr</p>
-            {% if service.is_available %}
-                <span class="text-success">Available</span>
-            {% else %}
-                 <span class="text-danger">Not Available</span>
-            {% endif %}
                 <div class="worker-info">
                     <span>👤 {{ service.worker.user.username }}</span>
                     {% if service.worker.user.userprofile.is_female %}
