@@ -743,6 +743,15 @@ h2.search-title {
     background:var(--deep-space-blue);
     color:white;
 }
+.text-success{
+    color: green;
+    font-weight: bold;
+}
+
+.text-danger{
+    color: red;
+    font-weight: bold;
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px){
