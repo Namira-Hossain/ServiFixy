@@ -76,8 +76,28 @@ def profile_view(request):
         profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
         return redirect('register')
-    return render(request, 'accounts/profile.html', {'profile': profile})
 
+    worker_profile = None
+    received_ratings = []
+
+    if profile.role == 'worker':
+        try:
+            from .models import WorkerProfile
+            worker_profile = WorkerProfile.objects.get(user=request.user)
+        except WorkerProfile.DoesNotExist:
+            pass
+
+    # import here to avoid circular imports
+    from bookings.models import Rating
+    received_ratings = Rating.objects.filter(
+        receiver=profile
+    ).select_related('reviewer__user', 'booking__service')
+
+    return render(request, 'accounts/profile.html', {
+        'profile': profile,
+        'worker_profile': worker_profile,
+        'received_ratings': received_ratings,
+    })
 @login_required
 def edit_profile(request):
     profile = UserProfile.objects.get(user=request.user)
