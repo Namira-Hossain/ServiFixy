@@ -9,10 +9,18 @@
     {% for booking in bookings %}
         <div class="booking-card">
             <div class="booking-info">
-                <h3>{{ booking.service.title }}</h3>
-                <p><strong>Customer:</strong> {{ booking.customer.user.username }}</p>
-                <p><strong>Date:</strong> {{ booking.date }}</p>
-                <p><strong>Time:</strong> {{ booking.time }}</p>
+    <h3>{{ booking.service.title }}</h3>
+    <p><strong>Customer:</strong> {{ booking.customer.user.username }}</p>
+    <p><strong>Phone:</strong> {{ booking.customer.phone }}</p>
+    <p><strong>Address:</strong> {{ booking.customer.address }}</p>
+    {% if booking.customer.is_female %}
+        <span class="badge badge-female">👩 Female</span>
+    {% endif %}
+    {% if booking.customer.is_verified %}
+        <span class="badge badge-verified">✅ Verified</span>
+    {% endif %}
+    <p><strong>Date:</strong> {{ booking.date }}</p>
+    <p><strong>Time:</strong> {{ booking.time }}</p>
                 <p><strong>Status:</strong>
                     <span class="status status-{{ booking.status }}">
                         {{ booking.status|capfirst }}
