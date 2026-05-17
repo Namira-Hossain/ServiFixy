@@ -10,6 +10,10 @@ def book_service(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
     customer_profile = UserProfile.objects.get(user=request.user)
 
+    # workers cannot book services
+    if customer_profile.role == 'worker':
+        return redirect('service_list')
+
     # first booking discount check
     is_first = not Booking.objects.filter(
         customer=customer_profile
@@ -64,7 +68,27 @@ def booking_requests(request):
     return render(request, 'bookings/booking_requests.html', {
         'bookings': bookings
     })
+@login_required
+def update_booking_status(request, booking_id):
+    booking = get_object_or_404(Booking, pk=booking_id)
+    worker_profile = WorkerProfile.objects.get(user=request.user)
 
+    # only the assigned worker can update
+    if booking.worker != worker_profile:
+        return redirect('booking_requests')
+
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in ['confirmed', 'completed', 'cancelled']:
+            booking.status = new_status
+            booking.save()
+
+            # if completed update completed jobs count
+            if new_status == 'completed':
+                worker_profile.completed_jobs += 1
+                worker_profile.save()
+
+    return redirect('booking_requests')
 @login_required
 def cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, pk=booking_id)

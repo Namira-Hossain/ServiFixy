@@ -20,10 +20,33 @@
                 </p>
                 <p><strong>Final Price:</strong> ৳{{ booking.final_price }}</p>
             </div>
+
             <div class="booking-actions">
+                {% if booking.status == 'pending' %}
+                    <form method="POST" action="{% url 'update_booking_status' booking.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="confirmed">
+                        <button type="submit" class="btn">Accept</button>
+                    </form>
+                    <form method="POST" action="{% url 'update_booking_status' booking.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="cancelled">
+                        <button type="submit" class="btn btn-outline">Reject</button>
+                    </form>
+                {% endif %}
+
+                {% if booking.status == 'confirmed' %}
+                    <form method="POST" action="{% url 'update_booking_status' booking.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="completed">
+                        <button type="submit" class="btn">Mark Completed</button>
+                    </form>
+                {% endif %}
+
                 {% if booking.status == 'completed' %}
-                    <a href="{% url 'leave_rating' booking.pk %}"
-                        class="btn">Leave Rating</a>
+                    <a href="{% url 'leave_rating' booking.pk %}" class="btn">
+                        Leave Rating
+                    </a>
                 {% endif %}
             </div>
         </div>
