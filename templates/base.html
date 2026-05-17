@@ -9,7 +9,7 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <main class="container">
+    <main class="container" style="min-height: 70vh;">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert">{{ message }}</div>
